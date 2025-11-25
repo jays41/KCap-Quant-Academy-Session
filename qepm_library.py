@@ -25,21 +25,21 @@ FACTOR_CORRELATIONS = {
 }
 
 def select_factors(factors):
+    print(f"Factors selected: {[f for f in factors]}")
     return {f: FACTOR_CORRELATIONS[f] for f in factors}
 
-def zscore(data):
-    return data  # intentionally fake
+def get_z_scores(my_factors, df):
+    return {f: df[f].values for f in my_factors}
 
-def compute_betas(returns, market_returns):
-    betas = np.ones(returns.shape[1]) * 1.0  # constant 1 beta
-    return betas
+def get_betas(df):
+    return np.random.rand(len(df))
 
 def expected_returns(factor_scores, correlations):
     w = np.array([correlations[f] for f in factor_scores.keys()])
     X = np.column_stack(list(factor_scores.values()))
     return X.dot(w)
 
-def optimise(expected_rets):
+def optimise(expected_rets, betas):
     w = expected_rets / np.sum(np.abs(expected_rets))
     return w
 

@@ -10,12 +10,13 @@ factor_corrs = select_factors(my_factors)
 # 2. Load dataset
 df = get_factor_data(my_factors, n_stocks=150)
 
-# 3. Compute expected returns
-factor_scores = {f: df[f].values for f in my_factors}
+# 3. Compute betas and expected returns
+betas = get_betas(df)
+factor_scores = get_z_scores(my_factors, df)
 mu = expected_returns(factor_scores, factor_corrs)
 
 # 4. Optimise portfolio
-weights = optimise(mu)
+weights = optimise(mu, betas)
 print("Weights:", weights[:10], "...")
 expected_portfolio_return = np.dot(weights, mu)
 print(f"Expected portfolio return: {expected_portfolio_return}")
